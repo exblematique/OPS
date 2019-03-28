@@ -55,21 +55,6 @@ ErrCode TestNr(char *numberOfTimes) {
       }
     }
   }
-    /*
-  for (int i = 0; i<size; i++){
-    ok = false;
-    for (int j = 0; j<10; j++) {
-      if (*numberOfTimes == (char) j){
-	ok = true;
-	break;
-      }
-    }
-    if (!ok){
-      fout = ERR_NR;
-      break;
-    }
-    numberOfTimes++;
-    }*/
   return fout;
 }
 
