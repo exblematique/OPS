@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
   char printMethod, printChar;
   ErrCode err;
   
-  err = NO_ERR;//SyntaxCheck(argc, argv);  // Check the command-line parameters
+  err = SyntaxCheck(argc, argv);  // Check the command-line parameters
   if(err != NO_ERR) {
     DisplayError(err);        // Print an error message
   } else {
@@ -26,7 +26,8 @@ int main(int argc, char *argv[]) {
       niceIncr = strtoul(argv[3], NULL, 10);
 
       int idChild;
-      for (int iChild=0; iChild<argc-4; iChild++){
+      int nbChild = argc-4;
+      for (int iChild=0; iChild<nbChild; iChild++){
 	idChild = fork();
 	if (idChild != 0) {
 	  continue;
@@ -38,11 +39,11 @@ int main(int argc, char *argv[]) {
 	break;
       }
       if (idChild != 0){
-	for (int i=0; i<4; i++) 
+	for (int i=0; i<nbChild; i++){ 
 	  printf("Child with PID %d has stopped\n", wait(NULL));
+	}
       }
   }
-  
   printf("\n");  // Newline at end
   return 0;
 }
