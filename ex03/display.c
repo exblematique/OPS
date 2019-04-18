@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
 #include <unistd.h>
 #include "displayFunctions.h"
 
@@ -33,9 +35,10 @@ int main(int argc, char *argv[]) {
 	  continue;
 	}
 	printChar = argv[iChild+4][0];
-	printf("iChild= %d, iChild*niceIncr= %ld, iChild-th= %c\n", iChild, iChild*niceIncr, printChar);
 	nice(iChild*niceIncr);
+	printf("iChild= %d, iChild*niceIncr= %ld, iChild-th= %c, priority= %d\n", iChild, iChild*niceIncr, printChar, getpriority(PRIO_PROCESS, 0));
 	PrintCharacters(printMethod, numOfTimes, printChar);  // Print character
+
 	break;
       }
       if (idChild != 0){
