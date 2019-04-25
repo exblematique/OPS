@@ -18,13 +18,8 @@ ErrCode SyntaxCheck(int argc, char **argv) {
   if(argc <= NUM_OF_PARS) {
     errCode = ERR_PARS;
   } else {
-    errCode = TestType(argv[1]);                        // Test whether argument 1 has the correct value (print type)
-    if(errCode == NO_ERR) errCode = TestNr(argv[2]);    // Test whether argument 2 contains a positive integer (number of times)
+    errCode = TestNr(argv[2]);    // Test whether argument 2 contains a positive integer (number of times)
     if(errCode == NO_ERR) errCode = TestNr(argv[3]);    // Test whether argument 3 contains a positive integer (nice value)
-
-    for (int i=NUM_OF_PARS; i<argc; i++){
-      if(errCode == NO_ERR) errCode = TestChar(argv[i]);  // Test whether others arguments contains only one character (print character)
-    }
   }
   return errCode;
 }
@@ -35,51 +30,18 @@ void DisplayError(ErrCode errCode) {
   case ERR_PARS:
     printf("\nNumber of command-line parameters is less than four.\n");
     break;
-  case ERR_TYPE:
-    printf("\nUnknown print type.\n");
-    break;
   case ERR_NR:
     printf("\nNumber of times is not a positive integer.\n");
-    break;
-  case ERR_CHAR:
-    printf("\nPrint character contains more than one character.\n");
     break;
   default:
     printf("\nUnknown error code!\n");
   }
   
   printf("\nCorrect syntax:\n");
-  printf("  ./display <print type> <number of times> <print character>\n\n");
+  printf("  ./display <print type> <number of times> <nice increment> <print character> [<print character2> ...]\n\n");
   printf("  first parameter: <print type>: e, p or w\n");
   printf("  second parameter: <number of times>: positive integer\n");
-  printf("  third parameter: <print character>: a single character\n");
+  printf("  third parameter: <nice increment>: positive integer\n");
+  printf("  others parameter: <print character>: a single character\n");
   printf("\n");  // Newline at end
-}
-
-
-// Print chacacter printChar numberOfTimes times using method printMethod:
-void PrintCharacters(char printMethod, unsigned long numberOfTimes, char printChar) {
-  unsigned long index = 0;
-  char echoCommand[] = "/bin/echo -n  ";
-  
-  switch(printMethod) {
-  case 'e':
-    echoCommand[13] = printChar;  // Put character to be printed in string
-    for(index = 0; index < numberOfTimes; index++) {
-      system(echoCommand);
-    }
-    break;
-  case 'p':
-    for(index = 0; index < numberOfTimes; index++) {
-      printf("%c", printChar);
-    }
-    break;
-  case 'w':
-    for(index = 0; index < numberOfTimes; index++) {
-      write(1, &printChar, 1);
-    }
-    break;
-  default:
-    printf("INTERNAL ERROR: Unknown print type:  %s.  This should not happen!\n", &printMethod);
-  }
 }
