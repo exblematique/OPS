@@ -25,6 +25,8 @@ int main(int argc, char *argv[]) {
   signal.sa_flags = 0;
   sigemptyset(&signal.sa_mask);
   sigaction(25, &signal, NULL);
+
+  printf("PID's program is: %i\n", getpid());
   
   while (1){
     write(1, &digit, sizeof(digit));
