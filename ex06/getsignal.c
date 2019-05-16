@@ -11,6 +11,7 @@
 #include <string.h>
 #include <signal.h>
 #include <unistd.h>
+#include <fcntl.h>
 
 char digit = '0';
 void changeDigit(int sig);
@@ -18,7 +19,17 @@ void changeDigit(int sig);
 int main(int argc, char *argv[]) {
   
   struct sigaction signal;
+  pid_t pid = getpid();
+  char buf[10];
+  int pipe;
 
+  
+  pipe = open("/home/student/.fifo/PIDpipe", O_WRONLY);
+  sprintf(buf, "%d", pid);
+  printf("PID's program is: %s\n", buf);
+  write(pipe, &buf, sizeof(buf));
+  close(pipe);
+  
   //Define signal
   memset(&signal, '\0', sizeof(signal));
   signal.sa_handler = changeDigit;
@@ -26,7 +37,6 @@ int main(int argc, char *argv[]) {
   sigemptyset(&signal.sa_mask);
   sigaction(25, &signal, NULL);
 
-  printf("PID's program is: %i\n", getpid());
   
   while (1){
     write(1, &digit, sizeof(digit));

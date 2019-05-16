@@ -12,20 +12,25 @@
 #include <signal.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <fcntl.h>
 #include <stdlib.h>
 
-char digit = '0';
-void changeDigit(int sig);
+
 
 int main(int argc, char *argv[]) {
   
-  if (argc != 2){
-    printf("The function needs one argument only\n");
+  if (argc != 1){
+    printf("The function doesn't need argument\n");
     return 1;
   }
 
-  pid_t pid = atoi(argv[1]);
   int sig = 25;
+  char pipeRead[10];
+  pid_t pid;
+  int pipe = open("/home/student/.fifo/PIDpipe", O_RDONLY);
+  read(pipe, &pipeRead, sizeof(pipeRead));
+  pid = atoi(pipeRead);
+  close(pipe);
   
   while (1){
     if (kill(pid, sig) != 0){

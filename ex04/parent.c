@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
 	printChar = argv[iChild+4];
 	nice(iChild*niceIncr);
 	printf("iChild= %d, iChild*niceIncr= %ld, iChild-th= %c, priority= %d\n", iChild, iChild*niceIncr, printChar[0], getpriority(PRIO_PROCESS, 0));
-	execl("../ex02/display", "./display", argv[1], argv[2], printChar, (char*) NULL);  // Print character
+	execl("../ex02/display", "display", argv[1], argv[2], printChar, (char*) NULL);  // Return value only if it's not a succeed // Print character
 	perror("Perror: ");
 	break;
       }
