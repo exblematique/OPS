@@ -23,13 +23,6 @@ int main(int argc, char *argv[]) {
   char buf[10];
   int pipe;
 
-  
-  pipe = open("/home/student/.fifo/PIDpipe", O_WRONLY);
-  sprintf(buf, "%d", pid);
-  printf("PID's program is: %s\n", buf);
-  write(pipe, &buf, sizeof(buf));
-  close(pipe);
-  
   //Define signal
   memset(&signal, '\0', sizeof(signal));
   signal.sa_handler = changeDigit;
@@ -37,6 +30,13 @@ int main(int argc, char *argv[]) {
   sigemptyset(&signal.sa_mask);
   sigaction(25, &signal, NULL);
 
+  pipe = open("/home/student/.fifo/PIDpipe", O_WRONLY);
+  sprintf(buf, "%d", pid);
+  printf("PID's program is: %s\n", buf);
+  write(pipe, &buf, sizeof(buf));
+  close(pipe);
+  
+  
   
   while (1){
     write(1, &digit, sizeof(digit));
