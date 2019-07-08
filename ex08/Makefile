@@ -8,11 +8,11 @@
 
 
 CXX = gcc
-CXXFLAGS=-g -O0 -Wall -Wextra
+CXXFLAGS=-g -O0 -Wall -Wextra -pthread
 
-EXECUTABLE = queue
-SOURCES = ${wildcard *.c}
-HEADERS = ${wildcard *.h}
+EXECUTABLE = sharedQueue
+SOURCES = ${wildcard *Q*.c}
+HEADERS = ${wildcard *Q*.h}
 OBJECTS = ${SOURCES:.c=.o}
 
 # Rule to create .o from .c:
